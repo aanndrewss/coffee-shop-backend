@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Dish {
+  id       Int        @id @default(autoincrement())
+  name     String
+  img      String
+  grams    Int
+  price    Int
+  type     Type       @relation(fields: [typeId], references: [id])
+  typeId   Int
+  dishInfo DishInfo[]
+  reviews  Review[]
+}
+
+model DishInfo {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  ingredients String
+  Dish        Dish?  @relation(fields: [dishId], references: [id])
+  dishId      Int?
+}
+
+model Type {
+  id     Int    @id @default(autoincrement())
+  name   String
+  dishes Dish[]
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  email    String   @unique
+  password String
+  role     String   @default("customer")
+  reviews  Review[]
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  rating      Int
+  comment     String
+  review_date DateTime
+  Dish        Dish?    @relation(fields: [dishId], references: [id])
+  dishId      Int?
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+}
