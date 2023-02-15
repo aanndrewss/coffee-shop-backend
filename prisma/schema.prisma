@@ -7,31 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Dish {
-  id       Int        @id @default(autoincrement())
-  name     String
-  img      String
-  grams    Int
-  price    Int
-  type     Type       @relation(fields: [typeId], references: [id])
-  typeId   Int
-  dishInfo DishInfo[]
-  reviews  Review[]
+model Product {
+  id          Int           @id @default(autoincrement())
+  name        String
+  img         String
+  grams       String
+  price       String
+  typeName    String
+  type        Type          @relation(fields: [typeName], references: [name])
+  productInfo ProductInfo[]
+  reviews     Review[]
 }
 
-model DishInfo {
-  id          Int    @id @default(autoincrement())
+model ProductInfo {
+  id          Int      @id @default(autoincrement())
   title       String
   description String
   ingredients String
-  Dish        Dish?  @relation(fields: [dishId], references: [id])
-  dishId      Int?
+  productId   Int?
+  Product     Product? @relation(fields: [productId], references: [id])
 }
 
 model Type {
-  id     Int    @id @default(autoincrement())
-  name   String
-  dishes Dish[]
+  name   String    @id @unique
+  dishes Product[]
 }
 
 model User {
@@ -48,8 +47,8 @@ model Review {
   rating      Int
   comment     String
   review_date DateTime
-  Dish        Dish?    @relation(fields: [dishId], references: [id])
-  dishId      Int?
-  User        User?    @relation(fields: [userId], references: [id])
+  productId   Int?
   userId      Int?
+  Product     Product? @relation(fields: [productId], references: [id])
+  User        User?    @relation(fields: [userId], references: [id])
 }
