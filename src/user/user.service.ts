@@ -1,25 +1,56 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { User } from '@prisma/client'
+import { PrismaService } from 'src/database/prisma.service'
+import { RoleService } from 'src/role/role.service'
 import { CreateOrUpdateUserDto } from './dto/createOrUpdateUser.dto'
 
 @Injectable()
 export class UserService {
-	create(data: CreateOrUpdateUserDto) {
-		return 'This action adds a new user'
+	constructor(
+		private prisma: PrismaService,
+		private roleService: RoleService
+	) {}
+
+	async create(data: CreateOrUpdateUserDto): Promise<User> {
+		const role = await this.roleService.findByValue('Customer')
+		const user = await this.prisma.user.create({
+			data: {
+				...data,
+				roles: {
+					create: [
+						{
+							roleId: role.id
+						}
+					]
+				}
+			}
+		})
+
+		return user
 	}
 
-	findAll() {
-		return `This action returns all user`
+	async findAll(): Promise<User[]> {
+		return this.prisma.user.findMany({ include: { roles: true } })
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} user`
+	async findOne(id: number): Promise<User | null> {
+		const user = await this.prisma.user.findUnique({ where: { id } })
+
+		if (!user) throw new NotFoundException('User not found!')
+		return user
 	}
 
-	update(id: number, data: CreateOrUpdateUserDto) {
-		return `This action updates a #${id} user`
+	async update(id: number, data: CreateOrUpdateUserDto): Promise<User | null> {
+		const user = await this.prisma.user.update({ where: { id }, data })
+
+		if (!user) throw new NotFoundException('User not found!')
+		return user
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} user`
+	async remove(id: number): Promise<User | null> {
+		const user = await this.prisma.user.delete({ where: { id } })
+
+		if (!user) throw new NotFoundException('User not found!')
+		return user
 	}
 }

@@ -33,19 +33,19 @@ model ProductType {
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  name      String
-  email     String      @unique
-  password  String
-  reviews   Review[]
-  UserRoles UserRoles[]
+  id       Int         @id @default(autoincrement())
+  name     String
+  email    String      @unique
+  password String
+  reviews  Review[]
+  roles    UserRoles[]
 }
 
 model Role {
   id          Int         @id @default(autoincrement())
   value       String      @unique
   description String
-  UserRoles   UserRoles[]
+  users       UserRoles[]
 }
 
 model UserRoles {

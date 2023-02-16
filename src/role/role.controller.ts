@@ -25,11 +25,6 @@ export class RoleController {
 		return this.roleService.findAll()
 	}
 
-	@Get(':id')
-	async findById(@Param('id') id: string): Promise<Role | null> {
-		return this.roleService.findById(+id)
-	}
-
 	@Get(':value')
 	async findByValue(@Param('value') value: string): Promise<Role | null> {
 		return this.roleService.findByValue(value)

@@ -6,19 +6,13 @@ import { CreateOrUpdateRoleDto } from './dto/createOrUpdateRole.dto'
 @Injectable()
 export class RoleService {
 	constructor(private prisma: PrismaService) {}
+
 	async create(data: CreateOrUpdateRoleDto): Promise<Role> {
 		return this.prisma.role.create({ data })
 	}
 
 	async findAll(): Promise<Role[]> {
 		return this.prisma.role.findMany()
-	}
-
-	async findById(id: number): Promise<Role | null> {
-		const role = await this.prisma.role.findUnique({ where: { id } })
-
-		if (!role) throw new NotFoundException('Role not found!')
-		return role
 	}
 
 	async findByValue(value: string): Promise<Role | null> {
