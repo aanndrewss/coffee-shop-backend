@@ -14,8 +14,15 @@ export class RoleService {
 		return this.prisma.role.findMany()
 	}
 
-	async findOne(id: number): Promise<Role | null> {
+	async findById(id: number): Promise<Role | null> {
 		const role = await this.prisma.role.findUnique({ where: { id } })
+
+		if (!role) throw new NotFoundException('Role not found!')
+		return role
+	}
+
+	async findByValue(value: string): Promise<Role | null> {
+		const role = await this.prisma.role.findUnique({ where: { value } })
 
 		if (!role) throw new NotFoundException('Role not found!')
 		return role

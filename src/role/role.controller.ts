@@ -26,20 +26,25 @@ export class RoleController {
 	}
 
 	@Get(':id')
-	async findOne(@Param('id') id: string): Promise<Role> {
-		return this.roleService.findOne(+id)
+	async findById(@Param('id') id: string): Promise<Role | null> {
+		return this.roleService.findById(+id)
+	}
+
+	@Get(':value')
+	async findByValue(@Param('value') value: string): Promise<Role | null> {
+		return this.roleService.findByValue(value)
 	}
 
 	@Patch(':id')
 	async update(
 		@Param('id') id: string,
 		@Body() data: CreateOrUpdateRoleDto
-	): Promise<Role> {
+	): Promise<Role | null> {
 		return this.roleService.update(+id, data)
 	}
 
 	@Delete(':id')
-	async remove(@Param('id') id: string): Promise<Role> {
+	async remove(@Param('id') id: string): Promise<Role | null> {
 		return this.roleService.remove(+id)
 	}
 }
