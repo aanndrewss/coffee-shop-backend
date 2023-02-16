@@ -3,8 +3,10 @@ import { ServeStaticModule } from '@nestjs/serve-static'
 import * as path from 'path'
 import { DatabaseModule } from './database/database.module'
 import { FilesModule } from './files/files.module'
+import { ProductTypeModule } from './product-type/product-type.module'
 import { ProductModule } from './product/product.module'
-import { ProductTypeModule } from './product-type/product-type.module';
+import { RoleModule } from './role/role.module'
+import { UserModule } from './user/user.module'
 
 @Module({
 	imports: [
@@ -14,7 +16,9 @@ import { ProductTypeModule } from './product-type/product-type.module';
 		ServeStaticModule.forRoot({
 			rootPath: path.resolve(__dirname, 'static')
 		}),
-		ProductTypeModule
+		ProductTypeModule,
+		UserModule,
+		RoleModule
 	],
 	controllers: [],
 	providers: []
