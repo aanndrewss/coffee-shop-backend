@@ -31,7 +31,7 @@ export class ProductTypeController {
 	async update(
 		@Param('name') name: string,
 		@Body() data: CreateOrUpdateProductTypeDto
-	): Promise<ProductType> {
+	): Promise<ProductType | null> {
 		return this.productTypeService.update(name, data)
 	}
 
@@ -41,7 +41,7 @@ export class ProductTypeController {
 	}
 
 	@Delete(':name')
-	remove(@Param('name') name: string): Promise<ProductType> {
+	remove(@Param('name') name: string): Promise<ProductType | null> {
 		return this.productTypeService.remove(name)
 	}
 }

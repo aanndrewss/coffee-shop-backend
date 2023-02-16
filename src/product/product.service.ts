@@ -30,9 +30,9 @@ export class ProductService {
 		id: number,
 		data: CreateOrUpdateProductDto,
 		img: any
-	): Promise<Product> {
+	): Promise<Product | null> {
 		const fileName = await this.fileService.createFile(img)
-		return this.prisma.product.update({
+		const product = await this.prisma.product.update({
 			where: {
 				id
 			},
@@ -41,6 +41,9 @@ export class ProductService {
 				img: fileName
 			}
 		})
+
+		if (!product) throw new NotFoundException('Product not found!')
+		return product
 	}
 
 	async create(data: CreateOrUpdateProductDto, img: any): Promise<Product> {
@@ -53,9 +56,12 @@ export class ProductService {
 		})
 	}
 
-	async remove(id: number): Promise<Product> {
-		return this.prisma.product.delete({
+	async remove(id: number): Promise<Product | null> {
+		const product = await this.prisma.product.delete({
 			where: { id }
 		})
+
+		if (!product) throw new NotFoundException('Product not found!')
+		return product
 	}
 }

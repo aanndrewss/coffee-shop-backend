@@ -44,12 +44,12 @@ export class ProductController {
 		@Body() data: CreateOrUpdateProductDto,
 		@UploadedFile()
 		img
-	): Promise<Product> {
+	): Promise<Product | null> {
 		return this.productService.update(+id, data, img)
 	}
 
 	@Delete(':id')
-	async remove(@Param('id') id: string) {
+	async remove(@Param('id') id: string): Promise<Product | null> {
 		return this.productService.remove(+id)
 	}
 }

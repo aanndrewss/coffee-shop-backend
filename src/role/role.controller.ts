@@ -7,6 +7,7 @@ import {
 	Patch,
 	Post
 } from '@nestjs/common'
+import { Role } from '@prisma/client'
 import { CreateOrUpdateRoleDto } from './dto/createOrUpdateRole.dto'
 import { RoleService } from './role.service'
 
@@ -15,27 +16,30 @@ export class RoleController {
 	constructor(private readonly roleService: RoleService) {}
 
 	@Post()
-	create(@Body() data: CreateOrUpdateRoleDto) {
+	async create(@Body() data: CreateOrUpdateRoleDto): Promise<Role> {
 		return this.roleService.create(data)
 	}
 
 	@Get()
-	findAll() {
+	async findAll(): Promise<Role[]> {
 		return this.roleService.findAll()
 	}
 
 	@Get(':id')
-	findOne(@Param('id') id: string) {
+	async findOne(@Param('id') id: string): Promise<Role> {
 		return this.roleService.findOne(+id)
 	}
 
 	@Patch(':id')
-	update(@Param('id') id: string, @Body() data: CreateOrUpdateRoleDto) {
+	async update(
+		@Param('id') id: string,
+		@Body() data: CreateOrUpdateRoleDto
+	): Promise<Role> {
 		return this.roleService.update(+id, data)
 	}
 
 	@Delete(':id')
-	remove(@Param('id') id: string) {
+	async remove(@Param('id') id: string): Promise<Role> {
 		return this.roleService.remove(+id)
 	}
 }

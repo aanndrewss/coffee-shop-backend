@@ -15,24 +15,35 @@ export class ProductTypeService {
 	}
 
 	async findByName(name: string): Promise<ProductType | null> {
-		const type = await this.prisma.productType.findUnique({
+		const productType = await this.prisma.productType.findUnique({
 			where: {
 				name
 			}
 		})
 
-		if (!type) throw new NotFoundException('Type not found!')
-		return type
+		if (!productType) throw new NotFoundException('Product type not found!')
+		return productType
 	}
 
 	async update(
 		name: string,
 		data: CreateOrUpdateProductTypeDto
-	): Promise<ProductType> {
-		return this.prisma.productType.update({ where: { name }, data })
+	): Promise<ProductType | null> {
+		const productType = await this.prisma.productType.update({
+			where: { name },
+			data
+		})
+
+		if (!productType) throw new NotFoundException('Product type not found!')
+		return productType
 	}
 
-	async remove(name: string): Promise<ProductType> {
-		return this.prisma.productType.delete({ where: { name } })
+	async remove(name: string): Promise<ProductType | null> {
+		const productType = await this.prisma.productType.delete({
+			where: { name }
+		})
+
+		if (!productType) throw new NotFoundException('Product type not found!')
+		return productType
 	}
 }
