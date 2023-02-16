@@ -1,27 +1,38 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { ProductType } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
 import { CreateOrUpdateProductTypeDto } from './dto/create-product-type.dto'
 
 @Injectable()
 export class ProductTypeService {
 	constructor(private prisma: PrismaService) {}
-	create(data: CreateOrUpdateProductTypeDto) {
-		return this.prisma.type.create({ data })
+	async create(data: CreateOrUpdateProductTypeDto): Promise<ProductType> {
+		return this.prisma.productType.create({ data })
 	}
 
-	findAll() {
-		return `This action returns all productType`
+	async findAll(): Promise<ProductType[]> {
+		return this.prisma.productType.findMany()
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} productType`
+	async findByName(name: string): Promise<ProductType | null> {
+		const type = await this.prisma.productType.findUnique({
+			where: {
+				name
+			}
+		})
+
+		if (!type) throw new NotFoundException('Type not found!')
+		return type
 	}
 
-	update(id: number, dto: CreateOrUpdateProductTypeDto) {
-		return `This action updates a #${id} productType`
+	async update(
+		name: string,
+		data: CreateOrUpdateProductTypeDto
+	): Promise<ProductType> {
+		return this.prisma.productType.update({ where: { name }, data })
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} productType`
+	async remove(name: string): Promise<ProductType> {
+		return this.prisma.productType.delete({ where: { name } })
 	}
 }

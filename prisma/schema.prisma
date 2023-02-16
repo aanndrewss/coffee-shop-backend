@@ -14,7 +14,7 @@ model Product {
   grams       String
   price       String
   typeName    String
-  type        Type          @relation(fields: [typeName], references: [name])
+  productType ProductType   @relation(fields: [typeName], references: [name])
   productInfo ProductInfo[]
   reviews     Review[]
 }
@@ -23,14 +23,13 @@ model ProductInfo {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  ingredients String
   productId   Int?
   Product     Product? @relation(fields: [productId], references: [id])
 }
 
-model Type {
-  name   String    @id @unique
-  dishes Product[]
+model ProductType {
+  name     String    @id @unique
+  products Product[]
 }
 
 model User {

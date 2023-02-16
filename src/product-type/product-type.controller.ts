@@ -1,36 +1,47 @@
 import {
-	Controller,
-	Get,
-	Post,
 	Body,
-	Patch,
+	Controller,
+	Delete,
+	Get,
 	Param,
-	Delete
+	Patch,
+	Post
 } from '@nestjs/common'
-import { ProductTypeService } from './product-type.service'
+import { ProductType } from '@prisma/client'
 import { CreateOrUpdateProductTypeDto } from './dto/create-product-type.dto'
+import { ProductTypeService } from './product-type.service'
 
 @Controller('product-type')
 export class ProductTypeController {
 	constructor(private readonly productTypeService: ProductTypeService) {}
 
 	@Post()
-	create(@Body() data: CreateOrUpdateProductTypeDto) {
+	async create(
+		@Body() data: CreateOrUpdateProductTypeDto
+	): Promise<ProductType> {
 		return this.productTypeService.create(data)
 	}
 
 	@Get()
-	findAll() {
+	async findAll(): Promise<ProductType[]> {
 		return this.productTypeService.findAll()
 	}
 
-	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.productTypeService.findOne(+id)
+	@Patch(':name')
+	async update(
+		@Param('name') name: string,
+		@Body() data: CreateOrUpdateProductTypeDto
+	): Promise<ProductType> {
+		return this.productTypeService.update(name, data)
 	}
 
-	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.productTypeService.remove(+id)
+	@Get(':name')
+	async findOne(@Param('name') name: string): Promise<ProductType | null> {
+		return this.productTypeService.findByName(name)
+	}
+
+	@Delete(':name')
+	remove(@Param('name') name: string): Promise<ProductType> {
+		return this.productTypeService.remove(name)
 	}
 }
