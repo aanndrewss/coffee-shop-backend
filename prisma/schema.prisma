@@ -8,62 +8,86 @@ datasource db {
 }
 
 model Product {
-  id          Int           @id @default(autoincrement())
-  name        String
-  img         String
-  grams       String
-  price       String
-  typeName    String
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name     String
+  img      String
+  grams    String
+  price    String
+  typeName String @default("") @map("type_name")
+
   productType ProductType   @relation(fields: [typeName], references: [name])
   productInfo ProductInfo[]
   reviews     Review[]
 }
 
 model ProductInfo {
-  id          Int      @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
   title       String
   description String
-  productId   Int?
-  Product     Product? @relation(fields: [productId], references: [id])
+  productId   Int?   @map("product_id")
+
+  Product Product? @relation(fields: [productId], references: [id])
 }
 
 model ProductType {
-  name     String    @id @unique
+  name      String   @id @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
   products Product[]
 }
 
 model User {
-  id       Int         @id @default(autoincrement())
-  name     String
-  email    String      @unique
-  password String
-  reviews  Review[]
-  roles    UserRoles[]
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name       String
+  email      String  @unique
+  password   String
+  avatarPath String? @map("avatar_path")
+  phone      String  @default("")
+
+  reviews Review[]
+  roles   UserRoles[]
 }
 
 model Role {
-  id          Int         @id @default(autoincrement())
-  value       String      @unique
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  value       String @unique
   description String
-  users       UserRoles[]
+
+  users UserRoles[]
 }
 
 model UserRoles {
   user   User @relation(fields: [userId], references: [id])
-  userId Int
+  userId Int  @map("user_id")
   role   Role @relation(fields: [roleId], references: [id])
-  roleId Int
+  roleId Int  @map("role_id")
 
   @@id([userId, roleId])
 }
 
 model Review {
-  id          Int      @id @default(autoincrement())
-  rating      Int
-  comment     String
-  review_date DateTime
-  productId   Int?
-  userId      Int?
-  Product     Product? @relation(fields: [productId], references: [id])
-  User        User?    @relation(fields: [userId], references: [id])
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  rating     Int
+  comment    String
+  reviewDate DateTime @map("review_date")
+  productId  Int?     @map("product_id")
+  userId     Int?     @map("user_id")
+
+  Product Product? @relation(fields: [productId], references: [id])
+  User    User?    @relation(fields: [userId], references: [id])
 }
