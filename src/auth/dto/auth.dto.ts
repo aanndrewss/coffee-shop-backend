@@ -5,6 +5,7 @@ export class AuthDto {
 	email: string
 
 	@IsString()
+	@IsOptional()
 	name: string
 
 	@MinLength(8, {
@@ -14,5 +15,6 @@ export class AuthDto {
 	password: string
 
 	@IsString()
+	@IsOptional()
 	phone: string
 }
