@@ -1,21 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { ProductType } from '@prisma/client'
+import { Category } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
 import { CreateOrUpdateProductTypeDto } from './dto/create-product-type.dto'
 
 @Injectable()
 export class ProductTypeService {
 	constructor(private prisma: PrismaService) {}
-	async create(data: CreateOrUpdateProductTypeDto): Promise<ProductType> {
-		return this.prisma.productType.create({ data })
+	async create(data: CreateOrUpdateProductTypeDto): Promise<Category> {
+		return this.prisma.category.create({ data })
 	}
 
-	async findAll(): Promise<ProductType[]> {
-		return this.prisma.productType.findMany()
+	async findAll(): Promise<Category[]> {
+		return this.prisma.category.findMany()
 	}
 
-	async findByName(name: string): Promise<ProductType | null> {
-		const productType = await this.prisma.productType.findUnique({
+	async findByName(name: string): Promise<Category | null> {
+		const productType = await this.prisma.category.findUnique({
 			where: {
 				name
 			}
@@ -28,8 +28,8 @@ export class ProductTypeService {
 	async update(
 		name: string,
 		data: CreateOrUpdateProductTypeDto
-	): Promise<ProductType | null> {
-		const productType = await this.prisma.productType.update({
+	): Promise<Category | null> {
+		const productType = await this.prisma.category.update({
 			where: { name },
 			data
 		})
@@ -38,8 +38,8 @@ export class ProductTypeService {
 		return productType
 	}
 
-	async remove(name: string): Promise<ProductType | null> {
-		const productType = await this.prisma.productType.delete({
+	async remove(name: string): Promise<Category | null> {
+		const productType = await this.prisma.category.delete({
 			where: { name }
 		})
 

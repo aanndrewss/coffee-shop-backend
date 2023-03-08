@@ -12,15 +12,17 @@ model Product {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  name     String
-  img      String
-  grams    String
-  price    String
-  typeName String @default("") @map("type_name")
+  name       String @unique
+  slug       String @unique
+  img        String
+  grams      String
+  price      String
+  categoryId Int?   @map("category_id")
 
-  productType ProductType   @relation(fields: [typeName], references: [name])
+  category    Category?     @relation(fields: [categoryId], references: [id])
   productInfo ProductInfo[]
   reviews     Review[]
+  orderItems  OrderItem[]
 }
 
 model ProductInfo {
@@ -32,13 +34,15 @@ model ProductInfo {
   description String
   productId   Int?   @map("product_id")
 
-  Product Product? @relation(fields: [productId], references: [id])
+  product Product? @relation(fields: [productId], references: [id])
 }
 
-model ProductType {
-  name      String   @id @unique
+model Category {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  name String @unique
 
   products Product[]
 }
@@ -56,6 +60,7 @@ model User {
 
   reviews Review[]
   roles   UserRoles[]
+  orders  Order[]
 }
 
 model Role {
@@ -63,7 +68,7 @@ model Role {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  value       String @unique
+  value       String @unique @default("Customer")
   description String
 
   users UserRoles[]
@@ -79,15 +84,50 @@ model UserRoles {
 }
 
 model Review {
-  id         Int      @id @default(autoincrement())
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
   rating     Int
   comment    String
   reviewDate DateTime @map("review_date")
   productId  Int?     @map("product_id")
   userId     Int?     @map("user_id")
 
-  Product Product? @relation(fields: [productId], references: [id])
-  User    User?    @relation(fields: [userId], references: [id])
+  product Product? @relation(fields: [productId], references: [id])
+  user    User?    @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  status EnumOrderStatus @default(PENDING)
+  userId Int             @map("user_id")
+
+  items OrderItem[]
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  quantity  Int
+  price     Int
+  orderId   Int? @map("order_id")
+  productId Int  @map("product_id")
+
+  order   Order?   @relation(fields: [orderId], references: [id])
+  product Product? @relation(fields: [productId], references: [id])
+}
+
+enum EnumOrderStatus {
+  PENDING
+  PAYED
+  SHIPPED
+  DELIVERED
 }
