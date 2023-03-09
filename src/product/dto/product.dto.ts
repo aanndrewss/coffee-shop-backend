@@ -1,6 +1,15 @@
+import { IsString } from 'class-validator'
+
 export class ProductDto {
-	readonly name: string
-	readonly price: number
-	readonly grams: number
-	readonly categoryId: number
+	@IsString()
+	name: string
+
+	@IsString()
+	price: string
+
+	@IsString()
+	grams: string
+
+	@IsString()
+	categoryId: string
 }

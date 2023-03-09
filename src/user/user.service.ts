@@ -41,7 +41,7 @@ export class UserService {
 		return this.prisma.user.findMany({ include: { roles: true } })
 	}
 
-	async findOne(id: number, selectObject: Prisma.UserSelect = {}) {
+	async findById(id: number, selectObject: Prisma.UserSelect = {}) {
 		const user = await this.prisma.user.findUnique({
 			where: { id },
 			select: {
@@ -79,7 +79,7 @@ export class UserService {
 		if (isSameUser && id !== isSameUser.id)
 			throw new BadRequestException('Email already in use')
 
-		const user = await this.findOne(id)
+		const user = await this.findById(id)
 
 		return this.prisma.user.update({
 			where: {
@@ -96,7 +96,7 @@ export class UserService {
 	}
 
 	async toggleFavorites(productId: number, userId: number) {
-		const user = await this.findOne(userId)
+		const user = await this.findById(userId)
 
 		if (!user) throw new NotFoundException('User not found!')
 

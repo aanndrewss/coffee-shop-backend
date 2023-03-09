@@ -10,7 +10,7 @@ export class StatisticsService {
 	) {}
 
 	async getMain(userId: number) {
-		const user = await this.userService.findOne(userId, {
+		const user = await this.userService.findById(userId, {
 			orders: { select: { items: true } },
 			reviews: true
 		})

@@ -20,11 +20,12 @@ model Product {
   categoryId Int?   @map("category_id")
   userId     Int?   @map("user_id")
 
-  category    Category?     @relation(fields: [categoryId], references: [id])
   productInfo ProductInfo[]
   reviews     Review[]
   orderItems  OrderItem[]
-  user        User?         @relation(fields: [userId], references: [id])
+
+  category Category? @relation(fields: [categoryId], references: [id])
+  user     User?     @relation(fields: [userId], references: [id])
 
   @@map("product")
 }
