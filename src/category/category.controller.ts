@@ -8,23 +8,21 @@ import {
 	Post
 } from '@nestjs/common'
 import { Category } from '@prisma/client'
+import { CategoryService } from './category.service'
 import { CategoryDto } from './dto/category.dto'
-import { ProductTypeService } from './product-type.service'
 
 @Controller('product-type')
-export class ProductTypeController {
-	constructor(private readonly productTypeService: ProductTypeService) {}
+export class CategoryController {
+	constructor(private readonly categoryService: CategoryService) {}
 
 	@Post()
-	async create(
-		@Body() dto: CategoryDto
-	): Promise<Category> {
-		return this.productTypeService.create(dto)
+	async create(@Body() dto: CategoryDto): Promise<Category> {
+		return this.categoryService.create(dto)
 	}
 
 	@Get()
 	async findAll(): Promise<Category[]> {
-		return this.productTypeService.findAll()
+		return this.categoryService.findAll()
 	}
 
 	@Patch(':name')
@@ -32,16 +30,16 @@ export class ProductTypeController {
 		@Param('name') name: string,
 		@Body() dto: CategoryDto
 	): Promise<Category | null> {
-		return this.productTypeService.update(name, dto)
+		return this.categoryService.update(name, dto)
 	}
 
 	@Get(':name')
 	async findOne(@Param('name') name: string): Promise<Category | null> {
-		return this.productTypeService.findByName(name)
+		return this.categoryService.findByName(name)
 	}
 
 	@Delete(':name')
 	remove(@Param('name') name: string): Promise<Category | null> {
-		return this.productTypeService.remove(name)
+		return this.categoryService.remove(name)
 	}
 }
