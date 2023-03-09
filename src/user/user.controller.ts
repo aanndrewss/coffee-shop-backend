@@ -48,7 +48,7 @@ export class UserController {
 	async update(
 		@CurrentUser('id') id: number,
 		@Body() dto: UserDto,
-		@UploadedFile() avatarPath
+		@UploadedFile() avatarPath: Express.Multer.File
 	): Promise<User | null> {
 		return this.userService.update(id, dto, avatarPath)
 	}

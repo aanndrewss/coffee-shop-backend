@@ -133,7 +133,11 @@ export class ProductService {
 		return products
 	}
 
-	async update(id: number, dto: ProductDto, img: any): Promise<Product | null> {
+	async update(
+		id: number,
+		dto: ProductDto,
+		img: Express.Multer.File
+	): Promise<Product | null> {
 		const fileName = await this.fileService.createFile(img)
 		const product = await this.prisma.product.update({
 			where: {
@@ -154,7 +158,7 @@ export class ProductService {
 		return product
 	}
 
-	async create(dto: ProductDto, img: any): Promise<Product> {
+	async create(dto: ProductDto, img: Express.Multer.File): Promise<Product> {
 		const fileName = await this.fileService.createFile(img)
 		const category = await this.categoryService.findById(+dto.categoryId)
 

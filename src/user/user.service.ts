@@ -72,7 +72,7 @@ export class UserService {
 	async update(
 		id: number,
 		dto: UserDto,
-		avatarPath: any
+		avatarPath: Express.Multer.File
 	): Promise<User | null> {
 		const fileName = await this.fileService.createFile(avatarPath)
 		const isSameUser = await this.findByEmail(dto.email)
