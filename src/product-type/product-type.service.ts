@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Category } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
-import { CreateOrUpdateProductTypeDto } from './dto/create-product-type.dto'
+import { CategoryDto } from './dto/category.dto'
 
 @Injectable()
 export class ProductTypeService {
 	constructor(private prisma: PrismaService) {}
-	async create(dto: CreateOrUpdateProductTypeDto): Promise<Category> {
+	async create(dto: CategoryDto): Promise<Category> {
 		return this.prisma.category.create({ data: { ...dto } })
 	}
 
@@ -25,10 +25,7 @@ export class ProductTypeService {
 		return productType
 	}
 
-	async update(
-		name: string,
-		dto: CreateOrUpdateProductTypeDto
-	): Promise<Category | null> {
+	async update(name: string, dto: CategoryDto): Promise<Category | null> {
 		const productType = await this.prisma.category.update({
 			where: { name },
 			data: { ...dto }

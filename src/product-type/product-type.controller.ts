@@ -8,7 +8,7 @@ import {
 	Post
 } from '@nestjs/common'
 import { Category } from '@prisma/client'
-import { CreateOrUpdateProductTypeDto } from './dto/create-product-type.dto'
+import { CategoryDto } from './dto/category.dto'
 import { ProductTypeService } from './product-type.service'
 
 @Controller('product-type')
@@ -17,7 +17,7 @@ export class ProductTypeController {
 
 	@Post()
 	async create(
-		@Body() dto: CreateOrUpdateProductTypeDto
+		@Body() dto: CategoryDto
 	): Promise<Category> {
 		return this.productTypeService.create(dto)
 	}
@@ -30,7 +30,7 @@ export class ProductTypeController {
 	@Patch(':name')
 	async update(
 		@Param('name') name: string,
-		@Body() dto: CreateOrUpdateProductTypeDto
+		@Body() dto: CategoryDto
 	): Promise<Category | null> {
 		return this.productTypeService.update(name, dto)
 	}
