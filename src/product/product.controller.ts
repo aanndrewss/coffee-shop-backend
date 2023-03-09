@@ -11,7 +11,7 @@ import {
 import { Patch } from '@nestjs/common/decorators'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { Product } from '@prisma/client'
-import { CreateOrUpdateProductDto } from './dto/createOrUpdateProduct.dto'
+import { ProductDto } from './dto/product.dto'
 import { ProductService } from './product.service'
 
 @Controller('product')
@@ -30,22 +30,19 @@ export class ProductController {
 
 	@Post()
 	@UseInterceptors(FileInterceptor('img'))
-	async create(
-		@Body() data: CreateOrUpdateProductDto,
-		@UploadedFile() img
-	): Promise<Product> {
-		return this.productService.create(data, img)
+	async create(@Body() dto: ProductDto, @UploadedFile() img): Promise<Product> {
+		return this.productService.create(dto, img)
 	}
 
 	@Patch(':id')
 	@UseInterceptors(FileInterceptor('img'))
 	async update(
 		@Param('id') id: string,
-		@Body() data: CreateOrUpdateProductDto,
+		@Body() dto: ProductDto,
 		@UploadedFile()
 		img
 	): Promise<Product | null> {
-		return this.productService.update(+id, data, img)
+		return this.productService.update(+id, dto, img)
 	}
 
 	@Delete(':id')

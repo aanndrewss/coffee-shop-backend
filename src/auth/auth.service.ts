@@ -5,9 +5,7 @@ import {
 	UnauthorizedException
 } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { User } from '@prisma/client'
 import { hash, verify } from 'argon2'
-import passport from 'passport'
 import { PrismaService } from 'src/database/prisma.service'
 import { UserService } from 'src/user/user.service'
 import { AuthDto } from './dto/auth.dto'
@@ -89,7 +87,7 @@ export class AuthService {
 		return user
 	}
 
-	private returnUserFields(user: User) {
+	private returnUserFields(user) {
 		return {
 			id: user.id,
 			email: user.email

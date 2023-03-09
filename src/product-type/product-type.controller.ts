@@ -17,9 +17,9 @@ export class ProductTypeController {
 
 	@Post()
 	async create(
-		@Body() data: CreateOrUpdateProductTypeDto
+		@Body() dto: CreateOrUpdateProductTypeDto
 	): Promise<Category> {
-		return this.productTypeService.create(data)
+		return this.productTypeService.create(dto)
 	}
 
 	@Get()
@@ -30,9 +30,9 @@ export class ProductTypeController {
 	@Patch(':name')
 	async update(
 		@Param('name') name: string,
-		@Body() data: CreateOrUpdateProductTypeDto
+		@Body() dto: CreateOrUpdateProductTypeDto
 	): Promise<Category | null> {
-		return this.productTypeService.update(name, data)
+		return this.productTypeService.update(name, dto)
 	}
 
 	@Get(':name')

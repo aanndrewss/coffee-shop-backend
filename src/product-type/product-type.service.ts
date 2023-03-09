@@ -6,8 +6,8 @@ import { CreateOrUpdateProductTypeDto } from './dto/create-product-type.dto'
 @Injectable()
 export class ProductTypeService {
 	constructor(private prisma: PrismaService) {}
-	async create(data: CreateOrUpdateProductTypeDto): Promise<Category> {
-		return this.prisma.category.create({ data })
+	async create(dto: CreateOrUpdateProductTypeDto): Promise<Category> {
+		return this.prisma.category.create({ data: { ...dto } })
 	}
 
 	async findAll(): Promise<Category[]> {
@@ -27,11 +27,11 @@ export class ProductTypeService {
 
 	async update(
 		name: string,
-		data: CreateOrUpdateProductTypeDto
+		dto: CreateOrUpdateProductTypeDto
 	): Promise<Category | null> {
 		const productType = await this.prisma.category.update({
 			where: { name },
-			data
+			data: { ...dto }
 		})
 
 		if (!productType) throw new NotFoundException('Product type not found!')

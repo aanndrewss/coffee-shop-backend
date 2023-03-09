@@ -1,4 +1,4 @@
-export class CreateOrUpdateProductDto {
+export class ProductDto {
 	readonly name: string
 	readonly price: string
 	readonly grams: string

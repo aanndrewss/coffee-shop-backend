@@ -18,11 +18,13 @@ model Product {
   grams      String
   price      String
   categoryId Int?   @map("category_id")
+  userId     Int?   @map("user_id")
 
   category    Category?     @relation(fields: [categoryId], references: [id])
   productInfo ProductInfo[]
   reviews     Review[]
   orderItems  OrderItem[]
+  user        User?         @relation(fields: [userId], references: [id])
 }
 
 model ProductInfo {
@@ -58,9 +60,10 @@ model User {
   avatarPath String? @map("avatar_path")
   phone      String  @default("")
 
-  reviews Review[]
-  roles   UserRoles[]
-  orders  Order[]
+  reviews   Review[]
+  roles     UserRoles[]
+  orders    Order[]
+  favorites Product[]
 }
 
 model Role {

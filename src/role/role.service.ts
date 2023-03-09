@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Role } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
-import { CreateOrUpdateRoleDto } from './dto/createOrUpdateRole.dto'
+import { RoleDto } from './dto/role.dto'
 
 @Injectable()
 export class RoleService {
 	constructor(private prisma: PrismaService) {}
 
-	async create(data: CreateOrUpdateRoleDto): Promise<Role> {
-		return this.prisma.role.create({ data })
+	async create(dto: RoleDto): Promise<Role> {
+		return this.prisma.role.create({ data: { ...dto } })
 	}
 
 	async findAll(): Promise<Role[]> {
@@ -22,8 +22,11 @@ export class RoleService {
 		return role
 	}
 
-	async update(id: number, data: CreateOrUpdateRoleDto): Promise<Role | null> {
-		const role = await this.prisma.role.update({ where: { id }, data })
+	async update(id: number, dto: RoleDto): Promise<Role | null> {
+		const role = await this.prisma.role.update({
+			where: { id },
+			data: { ...dto }
+		})
 
 		if (!role) throw new NotFoundException('Role not found!')
 		return role

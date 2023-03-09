@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { Product } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
 import { FilesService } from 'src/files/files.service'
-import { CreateOrUpdateProductDto } from './dto/createOrUpdateProduct.dto'
+import { ProductDto } from './dto/product.dto'
 
 @Injectable()
 export class ProductService {
@@ -26,18 +26,14 @@ export class ProductService {
 		return product
 	}
 
-	async update(
-		id: number,
-		data: CreateOrUpdateProductDto,
-		img: any
-	): Promise<Product | null> {
+	async update(id: number, dto: ProductDto, img: any): Promise<Product | null> {
 		const fileName = await this.fileService.createFile(img)
 		const product = await this.prisma.product.update({
 			where: {
 				id
 			},
 			data: {
-				...data,
+				...dto,
 				img: fileName
 			}
 		})
@@ -46,11 +42,11 @@ export class ProductService {
 		return product
 	}
 
-	async create(data: CreateOrUpdateProductDto, img: any): Promise<Product> {
+	async create(dto: ProductDto, img: any): Promise<Product> {
 		const fileName = await this.fileService.createFile(img)
 		return this.prisma.product.create({
 			data: {
-				...data,
+				...dto,
 				img: fileName
 			}
 		})
