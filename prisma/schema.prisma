@@ -15,8 +15,8 @@ model Product {
   name       String @unique
   slug       String @unique
   img        String
-  grams      String
-  price      String
+  grams      Int
+  price      Int
   categoryId Int?   @map("category_id")
   userId     Int?   @map("user_id")
 
@@ -26,7 +26,7 @@ model Product {
   orderItems  OrderItem[]
   user        User?         @relation(fields: [userId], references: [id])
 
-	@@map("product")
+  @@map("product")
 }
 
 model ProductInfo {
@@ -40,7 +40,7 @@ model ProductInfo {
 
   product Product? @relation(fields: [productId], references: [id])
 
-	@@map("product_info")
+  @@map("product_info")
 }
 
 model Category {
@@ -53,7 +53,7 @@ model Category {
 
   products Product[]
 
-	@@map("category")
+  @@map("category")
 }
 
 model User {
@@ -72,7 +72,7 @@ model User {
   orders    Order[]
   favorites Product[]
 
-	@@map("user")
+  @@map("user")
 }
 
 model Role {
@@ -85,7 +85,7 @@ model Role {
 
   users UserRoles[]
 
-	@@map("role")
+  @@map("role")
 }
 
 model UserRoles {
@@ -95,8 +95,7 @@ model UserRoles {
   roleId Int  @map("role_id")
 
   @@id([userId, roleId])
-
-	@@map("user_roles")
+  @@map("user_roles")
 }
 
 model Review {
@@ -104,16 +103,15 @@ model Review {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  rating     Int
-  comment    String
-  reviewDate DateTime @map("review_date")
-  productId  Int?     @map("product_id")
-  userId     Int?     @map("user_id")
+  rating    Int
+  comment   String
+  productId Int?   @map("product_id")
+  userId    Int?   @map("user_id")
 
   product Product? @relation(fields: [productId], references: [id])
   user    User?    @relation(fields: [userId], references: [id])
 
-	@@map("review")
+  @@map("review")
 }
 
 model Order {
@@ -128,7 +126,7 @@ model Order {
 
   user User @relation(fields: [userId], references: [id])
 
-	@@map("order")
+  @@map("order")
 }
 
 model OrderItem {
@@ -144,7 +142,7 @@ model OrderItem {
   order   Order?   @relation(fields: [orderId], references: [id])
   product Product? @relation(fields: [productId], references: [id])
 
-	@@map("order_item")
+  @@map("order_item")
 }
 
 enum EnumOrderStatus {

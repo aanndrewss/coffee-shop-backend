@@ -11,7 +11,7 @@ import { Role } from '@prisma/client'
 import { RoleDto } from './dto/role.dto'
 import { RoleService } from './role.service'
 
-@Controller('role')
+@Controller('roles')
 export class RoleController {
 	constructor(private readonly roleService: RoleService) {}
 

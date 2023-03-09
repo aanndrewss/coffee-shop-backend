@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { Product } from '@prisma/client'
 import { PrismaService } from 'src/database/prisma.service'
 import { FilesService } from 'src/files/files.service'
+import { slugify } from 'src/utils/slugify'
 import { ProductDto } from './dto/product.dto'
 
 @Injectable()
@@ -33,7 +34,11 @@ export class ProductService {
 				id
 			},
 			data: {
-				...dto,
+				name: dto.name,
+				slug: slugify(dto.name),
+				grams: dto.grams,
+				price: dto.price,
+				categoryId: dto.categoryId,
 				img: fileName
 			}
 		})
@@ -46,7 +51,11 @@ export class ProductService {
 		const fileName = await this.fileService.createFile(img)
 		return this.prisma.product.create({
 			data: {
-				...dto,
+				name: dto.name,
+				slug: slugify(dto.name),
+				grams: +dto.grams,
+				price: +dto.price,
+				categoryId: +dto.categoryId,
 				img: fileName
 			}
 		})

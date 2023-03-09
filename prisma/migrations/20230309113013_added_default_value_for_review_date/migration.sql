@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "review" ALTER COLUMN "review_date" SET DEFAULT CURRENT_TIMESTAMP;
