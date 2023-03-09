@@ -25,6 +25,8 @@ model Product {
   reviews     Review[]
   orderItems  OrderItem[]
   user        User?         @relation(fields: [userId], references: [id])
+
+	@@map("product")
 }
 
 model ProductInfo {
@@ -37,6 +39,8 @@ model ProductInfo {
   productId   Int?   @map("product_id")
 
   product Product? @relation(fields: [productId], references: [id])
+
+	@@map("product_info")
 }
 
 model Category {
@@ -48,6 +52,8 @@ model Category {
   slug String @unique
 
   products Product[]
+
+	@@map("category")
 }
 
 model User {
@@ -65,6 +71,8 @@ model User {
   roles     UserRoles[]
   orders    Order[]
   favorites Product[]
+
+	@@map("user")
 }
 
 model Role {
@@ -76,6 +84,8 @@ model Role {
   description String
 
   users UserRoles[]
+
+	@@map("role")
 }
 
 model UserRoles {
@@ -85,6 +95,8 @@ model UserRoles {
   roleId Int  @map("role_id")
 
   @@id([userId, roleId])
+
+	@@map("user_roles")
 }
 
 model Review {
@@ -100,6 +112,8 @@ model Review {
 
   product Product? @relation(fields: [productId], references: [id])
   user    User?    @relation(fields: [userId], references: [id])
+
+	@@map("review")
 }
 
 model Order {
@@ -113,6 +127,8 @@ model Order {
   items OrderItem[]
 
   user User @relation(fields: [userId], references: [id])
+
+	@@map("order")
 }
 
 model OrderItem {
@@ -127,6 +143,8 @@ model OrderItem {
 
   order   Order?   @relation(fields: [orderId], references: [id])
   product Product? @relation(fields: [productId], references: [id])
+
+	@@map("order_item")
 }
 
 enum EnumOrderStatus {
