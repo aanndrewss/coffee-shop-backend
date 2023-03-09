@@ -144,6 +144,7 @@ export class ProductService {
 				slug: slugify(dto.name),
 				grams: +dto.grams,
 				price: +dto.price,
+				description: dto.description,
 				categoryId: +dto.categoryId,
 				img: fileName
 			}
@@ -165,6 +166,7 @@ export class ProductService {
 				slug: slugify(dto.name),
 				grams: +dto.grams,
 				price: +dto.price,
+				description: dto.description,
 				categoryId: +dto.categoryId,
 				img: fileName
 			}

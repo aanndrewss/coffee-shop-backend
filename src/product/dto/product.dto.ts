@@ -11,5 +11,8 @@ export class ProductDto {
 	grams: string
 
 	@IsString()
+	description: string
+
+	@IsString()
 	categoryId: string
 }

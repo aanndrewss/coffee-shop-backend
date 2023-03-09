@@ -12,13 +12,14 @@ model Product {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  name       String @unique
-  slug       String @unique
-  img        String
-  grams      Int
-  price      Int
-  categoryId Int?   @map("category_id")
-  userId     Int?   @map("user_id")
+  name        String @unique
+  slug        String @unique
+  img         String
+  grams       Int
+  price       Int
+  description String
+  categoryId  Int?   @map("category_id")
+  userId      Int?   @map("user_id")
 
   productInfo ProductInfo[]
   reviews     Review[]

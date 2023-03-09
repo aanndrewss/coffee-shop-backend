@@ -9,6 +9,7 @@ export const returnProductObject: Prisma.ProductSelect = {
 	grams: true,
 	img: true,
 	slug: true,
+	description: true,
 	createdAt: true
 }
 
