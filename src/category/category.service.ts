@@ -27,7 +27,7 @@ export class CategoryService {
 			select: returnCategoryObject
 		})
 
-		if (!category) throw new NotFoundException('Product type not found!')
+		if (!category) throw new NotFoundException('Category not found!')
 		return category
 	}
 
@@ -39,7 +39,7 @@ export class CategoryService {
 			select: returnCategoryObject
 		})
 
-		if (!category) throw new NotFoundException('Product type not found!')
+		if (!category) throw new NotFoundException('Category not found!')
 		return category
 	}
 
@@ -49,7 +49,7 @@ export class CategoryService {
 			data: { name: dto.name, slug: slugify(dto.name) }
 		})
 
-		if (!category) throw new NotFoundException('Product type not found!')
+		if (!category) throw new NotFoundException('Category not found!')
 		return category
 	}
 
@@ -58,7 +58,7 @@ export class CategoryService {
 			where: { id }
 		})
 
-		if (!category) throw new NotFoundException('Product type not found!')
+		if (!category) throw new NotFoundException('Category not found!')
 		return category
 	}
 }

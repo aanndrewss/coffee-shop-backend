@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma, Product } from '@prisma/client'
+import { CategoryService } from 'src/category/category.service'
 import { PrismaService } from 'src/database/prisma.service'
 import { FilesService } from 'src/files/files.service'
 import { PaginationService } from 'src/pagination/pagination.service'
@@ -16,7 +17,8 @@ export class ProductService {
 	constructor(
 		private prisma: PrismaService,
 		private fileService: FilesService,
-		private paginationService: PaginationService
+		private paginationService: PaginationService,
+		private categoryService: CategoryService
 	) {}
 
 	async findAll(dto: GetAllProductDto = {}) {
@@ -153,6 +155,10 @@ export class ProductService {
 
 	async create(dto: ProductDto, img: any): Promise<Product> {
 		const fileName = await this.fileService.createFile(img)
+		const category = await this.categoryService.findById(+dto.categoryId)
+
+		if (!category) throw new NotFoundException('Category not found!')
+
 		return this.prisma.product.create({
 			data: {
 				name: dto.name,
