@@ -63,8 +63,6 @@ export class UserService {
 		return user
 	}
 
-	async toggleFavorite(id, productId) {}
-
 	async findByEmail(email: string): Promise<User | null> {
 		const user = await this.prisma.user.findUnique({ where: { email } })
 
@@ -114,6 +112,8 @@ export class UserService {
 				}
 			}
 		})
+
+		return { message: 'success' }
 	}
 
 	async remove(id: number): Promise<User | null> {
