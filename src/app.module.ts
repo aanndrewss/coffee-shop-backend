@@ -12,6 +12,7 @@ import { ReviewModule } from './review/review.module'
 import { RoleModule } from './role/role.module'
 import { StatisticsModule } from './statistics/statistics.module'
 import { UserModule } from './user/user.module'
+import { PaginationModule } from './pagination/pagination.module';
 
 @Module({
 	imports: [
@@ -28,7 +29,8 @@ import { UserModule } from './user/user.module'
 		AuthModule,
 		ReviewModule,
 		OrderModule,
-		StatisticsModule
+		StatisticsModule,
+		PaginationModule
 	],
 	controllers: [],
 	providers: []
